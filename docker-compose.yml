@@ -7,7 +7,7 @@ services:
             - MYSQL_PASSWORD=secret
             - MYSQL_ROOT_PASSWORD=password
             - MYSQL_DATABASE=database
-    webserver:
+    app:
         build: .
         command: uwsgi --ini /app/app/uwsgi.ini
         tty: true
@@ -15,8 +15,17 @@ services:
             - .:/app
             - /etc/passwd:/etc/passwd:ro
             - /etc/group:/etc/group:ro
-        user: "${UID}:${GID}"
         ports:
-            - "8001:8001"
+            - "3031:3031"
+        user: "${UID}:${GID}"
         depends_on:
             - db
+    nginx:
+        image: nginx
+        volumes:
+          - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        links:
+          - app
+        ports:
+          - "0.0.0.0:80:80"
+
