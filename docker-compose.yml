@@ -1,13 +1,21 @@
 version: '3'
 services:
     db:
-        image: mysql
+        image: mysql:5.7
+        environment:
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=secret
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=database
     webserver:
         build: .
         command: python3 manage.py runserver 0.0.0.0:8000
+        tty: true
         volumes:
             - .:/app
-        tty: true
+            - /etc/passwd:/etc/passwd:ro
+            - /etc/group:/etc/group:ro
+        user: "${UID}:${GID}"
         ports:
             - "8000:8000"
         depends_on:
