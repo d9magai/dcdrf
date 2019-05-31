@@ -21,7 +21,7 @@ services:
         depends_on:
             - db
     nginx:
-        image: nginx
+        image: nginx:1.16.0
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/.htpasswd:/etc/nginx/.htpasswd
