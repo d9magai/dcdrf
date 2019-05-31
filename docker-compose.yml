@@ -20,7 +20,7 @@ services:
         user: "${UID}:${GID}"
         depends_on:
             - db
-    nginx:
+    proxy:
         image: nginx:1.16.0
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
