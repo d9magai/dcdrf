@@ -9,10 +9,10 @@ services:
             - MYSQL_DATABASE=database
     app:
         build: .
-        command: uwsgi --ini /app/app/uwsgi.ini
+        command: python manage.py collectstatic --noinput && uwsgi --ini /srv/app/uwsgi.ini
         tty: true
         volumes:
-            - .:/app
+            - .:/srv
             - /etc/passwd:/etc/passwd:ro
             - /etc/group:/etc/group:ro
         ports:
