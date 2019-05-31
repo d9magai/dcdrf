@@ -9,7 +9,7 @@ services:
             - MYSQL_DATABASE=database
     app:
         build: .
-        command: python manage.py collectstatic --noinput && uwsgi --ini /srv/app/uwsgi.ini
+        command: /srv/run.sh
         tty: true
         volumes:
             - .:/srv
@@ -23,9 +23,13 @@ services:
     nginx:
         image: nginx
         volumes:
-          - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - .:/srv
         links:
-          - app
+            - app
         ports:
-          - "0.0.0.0:80:80"
+            - "0.0.0.0:80:80"
+
+volumes:
+    .:
 
